@@ -5,6 +5,7 @@ const port = 5000;
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 
+const auth = require('./middleware/auth');
 const config =  require('./config/key.js');
 const User = require('./models/User.js');
 
@@ -17,13 +18,15 @@ app.use(cookieParser());
 
 
 const mongoose = require('mongoose');
+const { Route } = require('express');
+const { Router } = require('express');
 mongoose.connect(config.mongoURI)
 .then(()=> console.log('MongoDB Connected...'))
 .catch(err => console.log(err))
 
 app.get('/', (req,res) =>{ res.send('안녕하세요~~ 적당히 바람이 시원해 기분이 너무 좋아요 유후~ goodDay')});
 
-app.post('/register', (req,res) => {
+app.post('/api/user/register', (req,res) => {
 
     //회원 가입 할 때 필요한 정보들을 client에서 가져오면
     // 그것들을 데이터베이스에 넣어준다
@@ -63,7 +66,25 @@ app.post('/login', (req, res) => {
             })
         })
     })
+})
+
+
+app.get('/api/users/auth', auth,(req, res) => {
+
+    // 여기까지 미들웨어를 통과해 왔다는 얘기는 Authentication이 true 라는 말.
+    res.status(200).json({
+        _id: req.user._id,
+        isAdmin: req.user.role === 0 ? false : true,
+        isAuth: true,
+        email: req.user.email,
+        name: req.user.name,
+        lastname: req.user.lastname,
+        role: req.user.role,
+        image: req.user.image
+    })
 
 })
+
+
 
 app.listen(port, ()=> console.log(`Example app listening on port ${port}!`))
