@@ -4,15 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index",
-    "dev": "nodemon index",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon server/index",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "all" : "concurrently \"npm run dev\" \"npm run start --prefix client\" "
   },
   "author": "devbamki",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.0.1",
     "body-parser": "^1.19.2",
+    "concurrently": "^7.0.0",
     "cookie-parser": "^1.4.6",
     "express": "^4.17.3",
     "jsonwebtoken": "^8.5.1",

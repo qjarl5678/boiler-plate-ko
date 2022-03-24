@@ -26,6 +26,9 @@ mongoose.connect(config.mongoURI)
 
 app.get('/', (req,res) =>{ res.send('안녕하세요~~ 적당히 바람이 시원해 기분이 너무 좋아요 유후~ goodDay')});
 
+app.get('/api/hello', (req, res) => { res.send('Hello World!~~')})
+
+
 app.post('/api/user/register', (req,res) => {
 
     //회원 가입 할 때 필요한 정보들을 client에서 가져오면
