@@ -1,13 +1,14 @@
 import Axios from 'axios';
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
-
+import { useNavigate } from 'react-router-dom'
 import { loginUser } from '../../../_actions/user_action';
 
 
 
 function LoginPage(props) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [Email, setEmail] = useState("")
   const [Password, setPassword] = useState("")
@@ -34,9 +35,10 @@ function LoginPage(props) {
     dispatch(loginUser(body))
     .then(response => {
       if(response.payload.loginSuccess){
-        props.history.push('/');
+        navigate('/')
+        // props.history.push('/')
       }else{
-        alert('Error');
+        alert(response.payload.message)
       }
     })
 
@@ -57,7 +59,7 @@ function LoginPage(props) {
           <label>Password</label>
           <input type ="password" value={Password} onChange={onPasswordHandler} />
           <br/>
-          <button>
+          <button type='submit'>
             Login
           </button>
         
